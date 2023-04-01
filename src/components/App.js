@@ -1,14 +1,39 @@
-import React, { useReducer } from 'react'
-import { counterReducer } from '../reducers/counterReducer';
-import '../styles/App.css';
-const App = () => {
-const [state,dispatch] = useReducer(counterReducer,{/*initial state to be placed here*/})
-  return (
-    <div id="main">
+import "./styles.css";
+import { useReducer } from "react";
 
-    </div>
-  )
+// const initialState = ;
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "increment":
+      return {
+        ...state,
+        count: state.count + 1,
+        noOfClick: state.noOfClick + 1
+      };
+    case "decrement":
+      if (state.count - 1 < 0)
+        return { ...state, noOfClick: state.noOfClick + 1 };
+      // state.count = state.count -1;
+      return {
+        ...state,
+        count: state.count - 1,
+        noOfClick: state.noOfClick + 1
+      };
+    default:
+      throw new Error();
+  }
 }
 
-
-export default App;
+export default function Counter() {
+  const [state, dispatch] = useReducer(reducer, { count: 0, noOfClick: 0 });
+  return (
+    <>
+      Count: {state.count}
+      <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+      <button onClick={() => dispatch({ type: "increment" })}>+</button>
+      <br />
+      No of button clicks = {state.noOfClick};
+    </>
+  );
+}
