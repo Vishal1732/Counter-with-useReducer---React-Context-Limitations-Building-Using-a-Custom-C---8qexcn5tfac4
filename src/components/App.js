@@ -1,39 +1,21 @@
-import "./styles.css";
-import { useReducer } from "react";
-
-// const initialState = ;
-
-function reducer(state, action) {
-  switch (action.type) {
-    case "increment":
-      return {
-        ...state,
-        count: state.count + 1,
-        noOfClick: state.noOfClick + 1
-      };
-    case "decrement":
-      if (state.count - 1 < 0)
-        return { ...state, noOfClick: state.noOfClick + 1 };
-      // state.count = state.count -1;
-      return {
-        ...state,
-        count: state.count - 1,
-        noOfClick: state.noOfClick + 1
-      };
-    default:
-      throw new Error();
-  }
-}
-
-export default function Counter() {
-  const [state, dispatch] = useReducer(reducer, { count: 0, noOfClick: 0 });
+import React, { useReducer } from 'react'
+import { counterReducer } from '../reducers/counterReducer';
+import '../styles/App.css';
+const App = () => {
+  const [state, dispatch] = useReducer(counterReducer, { counter: 0 })
+  const { counter } = state;
   return (
-    <>
-      Count: {state.count}
-      <button onClick={() => dispatch({ type: "decrement" })}>-</button>
-      <button onClick={() => dispatch({ type: "increment" })}>+</button>
-      <br />
-      No of button clicks = {state.noOfClick};
-    </>
-  );
+    <div id="main">
+      <span id="counter">{counter}</span>
+      <button id="increment-btn" onClick={() => dispatch({ type: 'INCREMENT' })}>
+        +
+      </button>
+      <button id="decrement-btn" onClick={() => dispatch({ type: 'DECREMENT' })}>
+        -
+      </button>
+    </div>
+  )
 }
+
+
+export default App;
